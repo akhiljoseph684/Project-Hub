@@ -13,6 +13,8 @@ import {
   LogOut,
 } from "lucide-react";
 
+import logo from "../public/project_hub_logo_with_name.png";
+
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 
 import {
@@ -63,7 +65,7 @@ const navItems = [
   },
   {
     label: "Billing",
-    href: "/dashboard/billing",
+    href: "/billing",
     icon: CreditCard,
   },
 ];
@@ -93,23 +95,17 @@ export default function DashboardSidebar({
 
   return (
     <aside className="flex h-full w-full flex-col border-r bg-background md:h-screen md:w-72">
-
       <div className="border-b p-5">
         <Link href="/dashboard" className="flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary text-primary-foreground font-bold">
-            PH
-          </div>
-
-          <div>
-            <h2 className="text-lg font-bold">ProjectHub</h2>
-
-            <p className="text-xs text-muted-foreground">Project Management</p>
-          </div>
+          <img
+            src={logo.src}
+            alt="Logo"
+            className="h-auto w-28 sm:w-32 md:w-36 lg:w-40"
+          />
         </Link>
       </div>
 
-
-      <div className="flex-1 overflow-y-auto p-4">
+      <div className="flex-1 sidebar-scroll overflow-y-auto p-4">
         <div className="space-y-2">
           {navItems.map((item) => {
             const Icon = item.icon;
@@ -129,7 +125,6 @@ export default function DashboardSidebar({
           })}
         </div>
 
-
         {user?.plan?.slug !== "businness" && (
           <div className="mt-8 rounded-xl border bg-muted/40 p-4">
             <p className="text-sm font-semibold">{user?.plan?.name} Plan</p>
@@ -140,7 +135,7 @@ export default function DashboardSidebar({
             </p>
 
             <Link
-              href="/dashboard/billing"
+              href="/billing"
               onClick={closeSidebar}
               className="mt-3 inline-block text-sm font-medium text-primary"
             >
@@ -180,7 +175,7 @@ export default function DashboardSidebar({
               Settings
             </DropdownMenuItem>
 
-            <Link href="/dashboard/billing">
+            <Link href="/billing">
               <DropdownMenuItem onClick={closeSidebar}>
                 <CreditCard className="mr-2 h-4 w-4" />
                 Billing

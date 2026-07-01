@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAppSelector } from "@/redux/hooks";
+import { Loader2 } from "lucide-react";
 
 export default function VerifyOtpRoute({
   children,
@@ -11,8 +12,9 @@ export default function VerifyOtpRoute({
 }) {
   const router = useRouter();
 
-  const { isAuthenticated, user, loading } =
-    useAppSelector((state) => state.auth);
+  const { isAuthenticated, user, loading } = useAppSelector(
+    (state) => state.auth,
+  );
 
   useEffect(() => {
     if (loading) return;
@@ -25,22 +27,19 @@ export default function VerifyOtpRoute({
     if (user?.isVerified) {
       router.replace("/dashboard");
     }
-  }, [
-    loading,
-    isAuthenticated,
-    user,
-    router,
-  ]);
+  }, [loading, isAuthenticated, user, router]);
 
   if (loading) {
-    return null;
+    return (
+      <div className="flex h-screen items-center justify-center bg-background">
+        <Loader2 className="h-10 w-10 animate-spin text-primary" />
+      </div>
+    );
   }
 
   if (!isAuthenticated) {
     return null;
   }
-
-  
 
   if (user?.isVerified) {
     return null;

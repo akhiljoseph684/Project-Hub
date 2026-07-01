@@ -175,7 +175,7 @@ export default function BillingPage() {
                     plan.slug === "free" ||
                     userPlans.includes(plan.slug as (typeof userPlans)[number])
                       ? handleSelectPlan(plan.id)
-                      : router.push("/dashboard/billing/" + plan.id);
+                      : router.push("/billing/" + plan.id);
                   }}
                   variant={
                     plan.slug === user?.plan?.slug ? "outline" : "default"

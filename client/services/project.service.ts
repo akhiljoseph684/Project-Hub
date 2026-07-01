@@ -1,0 +1,125 @@
+import api from "@/lib/axios";
+
+export const searchUsers = async (search: string) => {
+  try {
+    const response = await api.get("/projects/search-users?search=" + search);
+
+    return response.data;
+  } catch (error: any) {
+    throw (
+      error.response?.data || {
+        success: false,
+        message: "Something went wrong",
+      }
+    );
+  }
+};
+
+export const createProject = async (data: any) => {
+  try {
+    const response = await api.post("/projects", data);
+
+    return response.data;
+  } catch (error: any) {
+    throw (
+      error.response?.data || {
+        success: false,
+        message: "Something went wrong",
+      }
+    );
+  }
+};
+
+export const getProjects = async () => {
+  try {
+    const response = await api.get("/projects");
+
+    return response.data;
+  } catch (error: any) {
+    throw (
+      error.response?.data || {
+        success: false,
+        message: "Something went wrong",
+      }
+    );
+  }
+};
+
+export const getProjectById = async (id: string) => {
+  try {
+    const response = await api.get(`/projects/${id}`);
+
+    return response.data;
+  } catch (error: any) {
+    throw (
+      error.response?.data || {
+        success: false,
+        message: "Something went wrong",
+      }
+    );
+  }
+};
+
+export const updateProject = async (
+  id: string,
+  data: any
+) => {
+  try {
+    const response = await api.patch(
+      `/projects/${id}`,
+      data
+    );
+
+    return response.data;
+  } catch (error: any) {
+    throw (
+      error.response?.data || {
+        success: false,
+        message: "Something went wrong",
+      }
+    );
+  }
+};
+
+export const deleteProject = async (id: string) => {
+  try {
+    const response = await api.delete(
+      `/projects/${id}`
+    );
+
+    return response.data;
+  } catch (error: any) {
+    throw (
+      error.response?.data || {
+        success: false,
+        message: "Something went wrong",
+      }
+    );
+  }
+};
+
+export const inviteMembers = async (
+  projectId: string,
+  members: {
+    userId: string;
+    role: "ADMIN" | "MEMBER" | "VIEWER";
+  }[]
+) => {
+  try {
+    const response = await api.post(
+      `/projects/${projectId}/members`,
+      {
+        members,
+      }
+    );
+
+    return response.data;
+  } catch (error: any) {
+    throw (
+      error.response?.data || {
+        success: false,
+        message: "Something went wrong",
+      }
+    );
+  }
+};
