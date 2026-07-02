@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAppSelector } from "@/redux/hooks";
 import { Loader2 } from "lucide-react";
+import CompleteProfileDialog from "./profile/complete-profile-dialog";
 
 export default function ProtectedRoute({
   children,
@@ -11,6 +12,8 @@ export default function ProtectedRoute({
   children: React.ReactNode;
 }) {
   const router = useRouter();
+
+  const [open, setOpen] = useState(false);
 
   const { user, isAuthenticated, loading } = useAppSelector(
     (state) => state.auth,
@@ -27,7 +30,13 @@ export default function ProtectedRoute({
       router.replace(`/verify-otp?email=${user.email}`);
       return;
     }
-  }, [loading, isAuthenticated, router]);
+
+    if (!user) return;
+
+    if (user && (!user.firstName || !user.lastName)) {
+      setOpen(true);
+    }
+  }, [loading, isAuthenticated, router, user]);
 
   if (loading) {
     return (
@@ -41,5 +50,11 @@ export default function ProtectedRoute({
     return null;
   }
 
-  return <>{children}</>;
+  return (
+    <>
+      <CompleteProfileDialog open={open} onOpenChange={setOpen} />
+
+      {children}
+    </>
+  );
 }

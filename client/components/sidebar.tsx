@@ -9,13 +9,13 @@ import {
   Rocket,
   BarChart3,
   CreditCard,
-  Settings,
   LogOut,
+  User,
 } from "lucide-react";
 
 import logo from "../public/project_hub_logo_with_name.png";
 
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 import {
   DropdownMenu,
@@ -79,6 +79,7 @@ export default function DashboardSidebar({
 }: DashboardSidebarProps) {
   const dispatch = useDispatch();
   const router = useRouter();
+
   const { user } = useAppSelector((state) => state.auth);
 
   const handleLogout = async () => {
@@ -156,11 +157,20 @@ export default function DashboardSidebar({
           <DropdownMenuTrigger asChild>
             <button className="flex w-full items-center gap-3 rounded-lg p-2 transition-colors hover:bg-muted">
               <Avatar>
-                <AvatarFallback>AJ</AvatarFallback>
+                <AvatarImage
+                  src={user?.avatar ?? ""}
+                  alt={user?.firstName ?? ""}
+                />
+
+                <AvatarFallback>
+                  {`${user?.firstName?.[0] ?? ""}`}
+                </AvatarFallback>
               </Avatar>
 
               <div className="flex-1 text-left">
-                <p className="text-sm font-medium">Akhil Joseph</p>
+                <p className="text-sm font-medium">
+                  {user?.firstName + " " + user?.lastName}
+                </p>
 
                 <p className="text-xs text-muted-foreground">
                   {user?.plan?.name} Plan
@@ -170,10 +180,12 @@ export default function DashboardSidebar({
           </DropdownMenuTrigger>
 
           <DropdownMenuContent align="end" className="w-56">
-            <DropdownMenuItem onClick={closeSidebar}>
-              <Settings className="mr-2 h-4 w-4" />
-              Settings
-            </DropdownMenuItem>
+            <Link href="/profile">
+              <DropdownMenuItem onClick={closeSidebar}>
+                <User className="mr-2 h-4 w-4" />
+                Profile
+              </DropdownMenuItem>
+            </Link>
 
             <Link href="/billing">
               <DropdownMenuItem onClick={closeSidebar}>

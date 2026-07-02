@@ -2,6 +2,10 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface User {
   id: string;
+  firstName: string;
+  lastName: string;
+  avatar: string | null;
+  role: string;
   email: string;
   isVerified: boolean;
   plan: {

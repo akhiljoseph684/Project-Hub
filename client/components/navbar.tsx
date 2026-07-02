@@ -2,16 +2,18 @@
 
 import { Bell, Menu, Plus, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
 import DashboardSidebar from "./sidebar";
 import { useState } from "react";
 import Link from "next/link";
+import { useAppSelector } from "@/redux/hooks";
 
 export default function DashboardNavbar() {
   const [open, setOpen] = useState(false);
+  const { user } = useAppSelector((state) => state.auth);
   return (
     <header className="sticky top-0 z-30 border-b bg-background/95 backdrop-blur">
       <div className="flex h-16 items-center justify-between px-4 md:px-6">
@@ -65,17 +67,20 @@ export default function DashboardNavbar() {
           <Button variant="outline" size="icon">
             <Bell className="h-4 w-4" />
           </Button>
-          <div className="flex items-center gap-3 border-l pl-3 md:pl-4">
-            <Avatar className="h-8 w-8">
-              <AvatarFallback>AJ</AvatarFallback>
-            </Avatar>
+          <Link href="/profile">
+            <div className="flex items-center gap-3 border-l pl-3 md:hidden">
+              <Avatar>
+                <AvatarImage
+                  src={user?.avatar ?? ""}
+                  alt={user?.firstName ?? ""}
+                />
 
-            <div className="hidden md:block">
-              <p className="text-sm font-medium">Akhil</p>
-
-              <p className="text-xs text-muted-foreground">Admin</p>
+                <AvatarFallback>
+                  {`${user?.firstName?.[0] ?? ""}`}
+                </AvatarFallback>
+              </Avatar>
             </div>
-          </div>
+          </Link>
         </div>
       </div>
     </header>

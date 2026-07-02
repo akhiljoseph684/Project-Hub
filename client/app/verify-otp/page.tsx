@@ -4,11 +4,11 @@ import { useRef, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
-import { resendOtp, verifyOtp } from "@/services/auth.service";
+import { logoutUser, resendOtp, verifyOtp } from "@/services/auth.service";
 import VerifyOtpRoute from "@/components/VerifyOtpRoute";
 import { useDispatch } from "react-redux";
-import { setAuth } from "@/redux/slices/authSlice";
-import { showInfoToast } from "@/lib/toast";
+import { logout, setAuth } from "@/redux/slices/authSlice";
+import { showErrorToast, showInfoToast } from "@/lib/toast";
 
 export default function VerifyOtpPage() {
   const router = useRouter();
@@ -99,7 +99,7 @@ export default function VerifyOtpPage() {
         email,
       });
 
-      showInfoToast(response.message)
+      showInfoToast(response.message);
     } catch (error: any) {
       setError(error?.message || "Invalid OTP");
     } finally {
@@ -107,11 +107,23 @@ export default function VerifyOtpPage() {
     }
   };
 
+  const handleLogout = async () => {
+    try {
+      await logoutUser();
+
+      dispatch(logout());
+
+      router.push("/");
+    } catch (error) {
+      showErrorToast("Something Went Wrong");
+    }
+  };
+
   return (
     <VerifyOtpRoute>
       <main className="flex min-h-screen items-center justify-center px-4">
-        <Link
-          href="/register"
+        <div
+          onClick={handleLogout}
           className="
           absolute
           left-3
@@ -147,7 +159,7 @@ export default function VerifyOtpPage() {
         >
           <ArrowLeft size={16} />
           <span className="hidden sm:block">Back</span>
-        </Link>
+        </div>
 
         <div className="w-full max-w-sm">
           <div

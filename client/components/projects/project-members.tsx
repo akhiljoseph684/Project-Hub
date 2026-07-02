@@ -183,15 +183,13 @@ export default function ProjectMembers({ form }: Props) {
                       >
                         <div className="flex items-center gap-3">
                           <Avatar>
-                            <AvatarImage src={user.avatar ?? undefined} />
+                            <AvatarImage
+                              src={user?.avatar ?? ""}
+                              alt={user?.firstName ?? ""}
+                            />
 
                             <AvatarFallback>
-                              {fullName
-                                .split(" ")
-                                .filter(Boolean)
-                                .map((word) => word[0])
-                                .join("")
-                                .slice(0, 2)}
+                              {`${user?.firstName?.[0] ?? ""}`}
                             </AvatarFallback>
                           </Avatar>
 

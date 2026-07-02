@@ -20,6 +20,10 @@ export const verifyUser = async (req, res, next) => {
       },
       select: {
         id: true,
+        firstName: true,
+        lastName: true,
+        avatar: true,
+        role: true,
         email: true,
         isVerified: true,
         planId: true,

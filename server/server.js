@@ -1,4 +1,7 @@
 import express from "express";
+import dotenv from "dotenv";
+
+dotenv.config()
 import { PrismaClient } from "@prisma/client";
 import cors from "cors"
 import cookieParser from "cookie-parser";
@@ -6,6 +9,7 @@ import cookieParser from "cookie-parser";
 import authRoutes from "./src/routes/auth.route.js"
 import projectRoutes from "./src/routes/project.route.js"
 import subscriptionRoutes from "./src/routes/subscription.route.js"
+import userRoutes from "./src/routes/user.route.js"
 
 
 const prisma = new PrismaClient();
@@ -40,6 +44,7 @@ app.get("/", async (req, res) => {
 app.use("/api/auth", authRoutes)
 app.use("/api/subscription", subscriptionRoutes);
 app.use("/api/projects", projectRoutes);
+app.use("/api/user", userRoutes);
 
 app.listen(5000, () => {
   console.log("Server running on port 5000");

@@ -242,6 +242,10 @@ export const login = async (req, res) => {
         id: user.id,
         email: user.email,
         isVerified: user.isVerified,
+        avatar: user.avatar,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        role: user.role,
         plan: user.plan,
       },
     });
@@ -366,7 +370,11 @@ export const verifyOTP = async (req, res) => {
       user: {
         id: user.id,
         email: user.email,
+        avatar: user.avatar,
+        firstName: user.firstName,
+        lastName: user.lastName,
         isVerified: true,
+        role: user.role,
         plan: {
           slug: "free",
           name: "Free",
